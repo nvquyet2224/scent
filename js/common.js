@@ -4,7 +4,6 @@ const $ = modules.$;
 let scrollPosition = 0;
 
 function togglePopup(show) {
-  console.log(window.scrollY);
   const body = document.body;
 
   if (show) {
@@ -120,10 +119,29 @@ function industryClick() {
   });
 }
 
+function navScrollToClick() {
+
+  $('.nav-menu li').on('click', function () {
+    $('.nav-menu li.active').removeClass('active');
+    const section = $(this).attr('data-page');
+    if ($('*[data-section=' + section + ']')) {
+      $(this).addClass('active');
+      $('.header').removeClass('open-menu');
+      $('html, body').removeClass('no-scroll');
+      const top = $('*[data-section=' + section + ']').offset().top;
+      $('html, body').animate({
+        scrollTop: top
+      }, 500, function () {});
+    }
+  });
+
+}
+
 (function () {
   navClick();
   faqClick();
   industryClick();
+  navScrollToClick();
 
   // mockup event submit
   $('#btnSubmit').on('click', function(){
